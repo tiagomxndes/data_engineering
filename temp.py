@@ -19,6 +19,7 @@ def classify_temperature(celsius: float) -> str:
         return "hot"
 
 
+print("hi")
 print(classify_temperature(-2))
 print(classify_temperature(3))
 print(classify_temperature(15))
