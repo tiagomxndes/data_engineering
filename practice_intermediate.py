@@ -68,7 +68,7 @@ def validate_password(password, min_length=8, require_digit=True, require_upper=
         if not has_digit:
             raise ValueError("Please use a digit.")
     if require_upper:
-        has_upper = any(char.has_upper() for char in password)
+        has_upper = any(char.isupper() for char in password)
         if not has_upper:
             raise ValueError("Please use an upper case.")
     return True
@@ -222,7 +222,7 @@ def run_report(inventory, grades, text):
 # ============================================================
 
 print(inventory_report(inventory))
-# print(check_passwords("abc12345", "ABCDEFGH", "Valid123", min_length=6))
+print(check_passwords("abc12345", "ABCDEFGH", "Valid123", min_length=6))
 # print(word_frequencies(sample_text))
 # print(unique_words(sample_text))
 # print(scan_directory(os.getcwd()))
