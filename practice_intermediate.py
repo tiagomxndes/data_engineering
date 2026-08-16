@@ -36,9 +36,15 @@ inventory = {
 
 
 def inventory_report(inventory):
-    pass
+    new_inventory = {}
+    for item, price in inventory.items():
+        if price[1] > 0:
+            new_inventory[item] = price[0] * price[1]
+            print(f"{item}: ${new_inventory[item]:.2f} ({price[1]} units)")
+    return dict(sorted(new_inventory.items(), key=lambda pair: pair[1], reverse=True))
 
 
+print(inventory_report(inventory))
 # ============================================================
 # EXERCISE 2 — Password policy validator (functions, args/kwargs, error handling)
 # ============================================================
