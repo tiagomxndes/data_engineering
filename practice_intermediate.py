@@ -43,6 +43,7 @@ def inventory_report(inventory):
             print(f"{item}: ${new_inventory[item]:.2f} ({price[1]} units)")
     return dict(sorted(new_inventory.items(), key=lambda pair: pair[1], reverse=True))
 
+
 # ============================================================
 # EXERCISE 2 — Password policy validator (functions, args/kwargs, error handling)
 # ============================================================
@@ -61,7 +62,7 @@ def validate_password(password, min_length=8, require_digit=True, require_upper=
     if not password:
         raise ValueError("Please enter a password.")
     if len(password) < min_length:
-        raise ValueError(f"Please use {min_length} characters minimum")	
+        raise ValueError(f"Please use {min_length} characters minimum")
     if require_digit:
         has_digit = any(char.isdigit() for char in password)
         if not has_digit:
@@ -74,11 +75,14 @@ def validate_password(password, min_length=8, require_digit=True, require_upper=
 
 
 def check_passwords(*passwords, **policy):
+    results = {}
     for password in passwords:
-        valid__password = validate_password(password)
-
-	return valid__password
-
+        try:
+            validate_password(password, **policy)
+            results[password] = "OK"
+        except ValueError as e:
+            results[password] = str(e)
+    return results
 
 
 # ============================================================
