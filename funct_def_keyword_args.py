@@ -10,4 +10,10 @@ and once overriding both by keyword in reversed order from the definition.
 
 
 def format_price(amount, currency="USD", decimals=2):
-    pass
+    return f"{amount:.{decimals}f} {currency}"
+
+
+print(format_price(amount=11.35453, currency="USD", decimals=1))
+x = round(19.999, 2)
+print(x)  # what does this print?
+print(f"{x:.2f}")  # what does this print?
