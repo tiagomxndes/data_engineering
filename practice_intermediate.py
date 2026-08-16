@@ -43,8 +43,6 @@ def inventory_report(inventory):
             print(f"{item}: ${new_inventory[item]:.2f} ({price[1]} units)")
     return dict(sorted(new_inventory.items(), key=lambda pair: pair[1], reverse=True))
 
-
-print(inventory_report(inventory))
 # ============================================================
 # EXERCISE 2 — Password policy validator (functions, args/kwargs, error handling)
 # ============================================================
@@ -60,11 +58,27 @@ print(inventory_report(inventory))
 
 
 def validate_password(password, min_length=8, require_digit=True, require_upper=True):
-    pass
+    if not password:
+        raise ValueError("Please enter a password.")
+    if len(password) < min_length:
+        raise ValueError(f"Please use {min_length} characters minimum")	
+    if require_digit:
+        has_digit = any(char.isdigit() for char in password)
+        if not has_digit:
+            raise ValueError("Please use a digit.")
+    if require_upper:
+        has_upper = any(char.has_upper() for char in password)
+        if not has_upper:
+            raise ValueError("Please use an upper case.")
+    return True
 
 
 def check_passwords(*passwords, **policy):
-    pass
+    for password in passwords:
+        valid__password = validate_password(password)
+
+	return valid__password
+
 
 
 # ============================================================
@@ -203,7 +217,7 @@ def run_report(inventory, grades, text):
 # Uncomment to test as you complete each one.
 # ============================================================
 
-# print(inventory_report(inventory))
+print(inventory_report(inventory))
 # print(check_passwords("abc12345", "ABCDEFGH", "Valid123", min_length=6))
 # print(word_frequencies(sample_text))
 # print(unique_words(sample_text))
