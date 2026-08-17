@@ -221,7 +221,16 @@ Theory already covered — go straight to writing these.
 # "value" field; otherwise leave records unchanged. Return a list of the
 # transformed records.
 def process_records(*records, **config):
-    pass
+    transformed_records = []
+
+    for record in records:
+        if config.get("multiplier"):
+            multiplier = config["multiplier"]
+            transformed_records.append(record["value"] * multiplier)
+
+    if transformed_records:
+        return transformed_records
+    return records
 
 
 print(
@@ -240,7 +249,13 @@ print(process_records({"id": 1, "value": 50}))  # no multiplier given
 # True if every required field is present in row, False otherwise — and
 # if any are missing, also return which ones are missing.
 def validate_schema(*required_fields, **row):
-    pass
+    missing_fields = []
+    for field in required_fields:
+        if field not in row.keys():
+            missing_fields.append(field)
+    if missing_fields:
+        return False, missing_fields
+    return True
 
 
 print(
@@ -252,13 +267,34 @@ print(validate_schema("id", "timestamp", "value", id=1, value=42))  # missing ti
 # ============================================================
 # 3. build_pipeline_step — HARDEST
 # ============================================================
-# step_name is the name of this pipeline step. transforms is any number
-# of transform names as strings (e.g. "clean", "dedupe"), applied in
-# order. options may include "batch_size" and "retry_on_fail". Return a
-# dict with: the step name, the list of transforms, and a summary string
-# noting the batch size (if given) and whether retries are enabled.
+# step_name is the name of this pipeline step.
+#
+# transforms is any number of transform names as strings (e.g. "clean", "dedupe"), applied inorder.
+
+# Options may include "batch_size" and "retry_on_fail".
+#
+
+
+# Return a dict with: the step name, the list of transforms
+# and a summary string noting the batch size (if given) and whether retries are enabled.
 def build_pipeline_step(step_name, *transforms, **options):
-    pass
+
+    if options.get("batch_size"):
+        summary = f"batch size {options['batch_size']}"
+    else:
+        summary = "no batch size specified"
+
+    if not options.get("retry_on_fail"):
+        summary += ", retries disabled"
+    else:
+        summary += ", retries enabled"
+
+    new_dict = {
+        "name": step_name,
+        "transforms": list(transforms),
+        "summary": summary,
+    }
+    return new_dict
 
 
 print(
