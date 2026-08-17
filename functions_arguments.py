@@ -118,10 +118,29 @@ print_info(city="Cork", job="developer")
 # e.g. discount=10 means 10% off). Test with at least two calls.
 
 
+def calculate_price(item_price, quantity=1, discount=0):
+    return (item_price * quantity) - (item_price * quantity * (discount / 100))
+
+
+print(calculate_price(10, 2, 10))
+print(calculate_price(10, 2, 50))
+print(calculate_price(quantity=2, item_price=3, discount=0))
 # B. MEDIUM
 # Write build_profile(first, last, **user_info) that returns a dict with
 # first and last name, plus any extra key/value pairs from **user_info.
 # Example call: build_profile('albert', 'einstein', field='physics', nationality='german')
+
+
+def build_profile(first, last, **user_info):
+    profile = {"first_name": first, "last_name": last}
+
+    for key, value in user_info.items():
+        profile[key] = value
+
+    return profile
+
+
+print(build_profile("albert", "einstein", field="physics", nationality="german"))
 
 
 # C. HARDEST
@@ -131,3 +150,118 @@ print_info(city="Cork", job="developer")
 #   - returns a formatted string listing the items, noting that tax will
 #     be applied if tax_rate was given (no real tax math needed — just
 #     show you can use *args and **kwargs together)
+#
+
+
+def summarize_order(*items, **options):
+    contains_no_tax = ""
+    contains_tax = ""
+    for item in items:
+        if "tax_rate" in options:
+            tax_rate = options["tax_rate"]
+            contains_tax += f"{item} contains {tax_rate} tax"
+        else:
+            contains_no_tax += f"{item} contains no tax"
+
+    if contains_no_tax and contains_tax:
+        return contains_no_tax, contains_tax
+    elif contains_tax:
+        return contains_tax
+    else:
+        return contains_no_tax
+
+
+print(summarize_order("coffee", "muffin", tax_rate=8, currency="EUR"))
+
+"""
+Write summarize_flight(*passengers, **options):
+
+Accepts any number of passenger names as positional args
+Accepts optional keyword settings, including baggage_fee
+Builds up a result as it loops over passengers:
+    - if baggage_fee was given, note that the fee applies;
+    - if not, note that it's baggage-free
+Returns only the relevant piece(s) — no empty strings tagging along, same as before
+Single return, outside the loop
+"""
+
+
+def summarize_flight(*passengers, **options):
+    has_fee = ""
+    has_not_fee = ""
+    for passenger in passengers:
+        if "baggage_fee" in options:
+            baggage_fee = options["baggage_fee"]
+            has_fee += f"{baggage_fee} applies for {passenger}\n"
+        else:
+            has_not_fee += f"{passenger} has no fee\n"
+
+    if has_fee and has_not_fee:
+        return has_fee, has_not_fee
+    elif has_fee:
+        return has_fee
+    else:
+        return has_not_fee
+
+
+print(summarize_flight("Alice", "Bob", baggage_fee=25, airline="Ryanair"))
+
+"""
+Week 1 (extra reps) — Data-engineering-flavored function/args practice
+Theory already covered — go straight to writing these.
+"""
+
+
+# ============================================================
+# 1. process_records — mini ETL step
+# ============================================================
+# Simulates a transform step. Each positional arg is a dict representing
+# a row (e.g. {"id": 1, "value": 100}). config may include "multiplier"
+# and "source". If "multiplier" was given, apply it to each record's
+# "value" field; otherwise leave records unchanged. Return a list of the
+# transformed records.
+def process_records(*records, **config):
+    pass
+
+
+print(
+    process_records(
+        {"id": 1, "value": 100}, {"id": 2, "value": 200}, multiplier=1.1, source="api"
+    )
+)
+print(process_records({"id": 1, "value": 50}))  # no multiplier given
+
+
+# ============================================================
+# 2. validate_schema — data quality check
+# ============================================================
+# required_fields are field names that must be present (e.g. "id",
+# "timestamp"). row is the actual data, passed as keyword args. Return
+# True if every required field is present in row, False otherwise — and
+# if any are missing, also return which ones are missing.
+def validate_schema(*required_fields, **row):
+    pass
+
+
+print(
+    validate_schema("id", "timestamp", "value", id=1, timestamp="2024-01-01", value=42)
+)
+print(validate_schema("id", "timestamp", "value", id=1, value=42))  # missing timestamp
+
+
+# ============================================================
+# 3. build_pipeline_step — HARDEST
+# ============================================================
+# step_name is the name of this pipeline step. transforms is any number
+# of transform names as strings (e.g. "clean", "dedupe"), applied in
+# order. options may include "batch_size" and "retry_on_fail". Return a
+# dict with: the step name, the list of transforms, and a summary string
+# noting the batch size (if given) and whether retries are enabled.
+def build_pipeline_step(step_name, *transforms, **options):
+    pass
+
+
+print(
+    build_pipeline_step("ingest", "clean", "dedupe", batch_size=500, retry_on_fail=True)
+)
+print(build_pipeline_step("export"))  # no transforms, no options
