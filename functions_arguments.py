@@ -301,3 +301,41 @@ print(
     build_pipeline_step("ingest", "clean", "dedupe", batch_size=500, retry_on_fail=True)
 )
 print(build_pipeline_step("export"))  # no transforms, no options
+
+"""
+Week 1 (closed-notes rebuild #2) — new scenarios, same core patterns
+No test calls given — write your own based on what each function needs.
+"""
+
+
+# ============================================================
+# 1. normalize_columns
+# ============================================================
+# column_names are original column strings (e.g. "first_nm", "amt", "dt").
+# renames maps old names to new ones as keyword args (e.g. first_nm="first_name").
+# Return a list of column names with renames applied where a mapping
+# exists, and left unchanged otherwise.
+def normalize_columns(*column_names, **renames):
+    pass
+
+
+# ============================================================
+# 2. filter_records
+# ============================================================
+# Each record is a dict (e.g. {"status": "active", "region": "EU"}).
+# filters are keyword conditions. A record only passes if it matches
+# EVERY filter given (not just one). If no filters are given at all,
+# return every record.
+def filter_records(*records, **filters):
+    pass
+
+
+# ============================================================
+# 3. count_by_field — HARDEST
+# ============================================================
+# field is a required argument naming which key to group by (e.g. "status").
+# Loop through records and count how many times each value of that field
+# appears, returning a dict like {"active": 3, "inactive": 1}.
+# If options includes "top_n", only return the top_n most frequent values.
+def count_by_field(*records, field, **options):
+    pass
