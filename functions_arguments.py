@@ -83,8 +83,11 @@ def make_coffee(size, milk=True, sugar=False):
 # 5. Write total(*numbers) that returns the sum of however many numbers
 #    are passed in (0, 1, or 10 — should all work).
 def total(*numbers):
-    pass
+    return sum(numbers)
 
+
+print(total())
+print(total(2, 5, 6, 67, 8))
 
 # --- THEORY: **kwargs ---
 # **kwargs collects any number of extra KEYWORD arguments into a dict.
@@ -95,9 +98,12 @@ def total(*numbers):
 # 6. Write print_info(**details) that prints each key/value pair, one
 #    per line, like "name: Sam".
 def print_info(**details):
-    pass
+
+    for key, value in details.items():
+        print(f"{key}: {value}")
 
 
+print_info(city="Cork", job="developer")
 # ============================================================
 # PART 2 — Build from scratch (easiest → hardest)
 # ============================================================
