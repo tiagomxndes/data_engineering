@@ -316,7 +316,19 @@ No test calls given — write your own based on what each function needs.
 # Return a list of column names with renames applied where a mapping
 # exists, and left unchanged otherwise.
 def normalize_columns(*column_names, **renames):
-    pass
+    mapped_list = []
+
+    for name in column_names:
+        mapped_list.append(renames.get(name, name))
+
+    return mapped_list
+
+
+print(normalize_columns("first_nm", "amt", "dt", first_nm="first_name", amt="amount"))
+# expect: ["first_name", "amount", "dt"]
+
+print(normalize_columns("id", "value"))
+# no renames given — expect: ["id", "value"] unchanged
 
 
 # ============================================================
@@ -327,7 +339,36 @@ def normalize_columns(*column_names, **renames):
 # EVERY filter given (not just one). If no filters are given at all,
 # return every record.
 def filter_records(*records, **filters):
-    pass
+
+    filtered_records = []
+
+    for record in records:
+        matches = True
+        for key, value in filters.items():
+            if record.get(key) != value:
+                matches = False
+        if matches:
+            filtered_records.append(record)
+
+    return filtered_records
+
+
+print(
+    filter_records(
+        {"status": "active", "region": "EU"}, {"status": "inactive", "region": "US"}
+    )
+)
+# no filters given — expect: both records returned
+
+print(
+    filter_records(
+        {"status": "active", "region": "EU"},
+        {"status": "active", "region": "US"},
+        {"status": "inactive", "region": "EU"},
+        status="active",
+        region="EU",
+    )
+)
 
 
 # ============================================================
