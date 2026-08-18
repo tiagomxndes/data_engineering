@@ -536,8 +536,6 @@ print(
 # If options includes "top_n"
 #   only return the top_n most frequent values.
 
-print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-
 
 def count_by_field(*records, field, **options):
     field_dict = {}
@@ -713,3 +711,47 @@ print(group_by_field(*records, field="role"))
     ],
 }
 """
+
+
+def validate_records(*records, **rules):
+    """
+    Return records that fail at least one validation rule.
+
+    Rules are provided as:
+        field=expected_type
+
+    A record is invalid if:
+    - a required field is missing, or
+    - the field's value is not an instance of the expected type.
+
+    Do not modify the original records.
+    Each invalid record should appear only once in the result.
+    """
+    pass
+
+
+# Example usage:
+
+records = [
+    {"name": "Alice", "age": 25},
+    {"name": "Bob", "age": "30"},
+    {"name": "Charlie"},
+    {"name": 123, "age": 22},
+]
+
+result = validate_records(
+    *records,
+    name=str,
+    age=int,
+)
+
+print(result)
+
+
+# Expected result:
+#
+# [
+#     {"name": "Bob", "age": "30"},
+#     {"name": "Charlie"},
+#     {"name": 123, "age": 22},
+# ]
