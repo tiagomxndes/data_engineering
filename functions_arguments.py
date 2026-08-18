@@ -770,3 +770,63 @@ print(result)
 #     {"name": "Charlie"},
 #     {"name": 123, "age": 22},
 # ]
+
+
+print(40 * "-")
+print("\n")
+
+
+def group_records(*records, field):
+    """
+    Group records by the value of a specified field.
+
+    Requirements:
+    - Return a dictionary where each key is a field value.
+    - Each value in the dictionary should be a list of records
+      containing that field value.
+    - Records missing the field should be grouped under None.
+    - Preserve the original order of the records.
+    - Do not modify the original records.
+    """
+    grouped_records = {}
+
+    for record in records:
+        field_value = record.get(field)
+
+        if field_value not in grouped_records:
+            grouped_records[field_value] = []
+        grouped_records[field_value].append(record)
+
+    return grouped_records
+
+
+# Example usage:
+
+records = [
+    {"name": "Alice", "department": "IT"},
+    {"name": "Bob", "department": "HR"},
+    {"name": "Charlie", "department": "IT"},
+    {"name": "David"},
+    {"name": "Eve", "department": "HR"},
+]
+
+result = group_records(*records, field="department")
+
+print(result)
+
+
+# Expected result:
+#
+# {
+#     "IT": [
+#         {"name": "Alice", "department": "IT"},
+#         {"name": "Charlie", "department": "IT"},
+#     ],
+#     "HR": [
+#         {"name": "Bob", "department": "HR"},
+#         {"name": "Eve", "department": "HR"},
+#     ],
+#     None: [
+#         {"name": "David"},
+#     ],
+# }
