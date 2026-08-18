@@ -528,8 +528,166 @@ print(
 # 3. count_by_field — HARDEST
 # ============================================================
 # field is a required argument naming which key to group by (e.g. "status").
-# Loop through records and count how many times each value of that field
-# appears, returning a dict like {"active": 3, "inactive": 1}.
-# If options includes "top_n", only return the top_n most frequent values.
+# Loop through records
+#   count how many times each value of that field appears
+
+# return a dict like {"active": 3, "inactive": 1}.
+
+# If options includes "top_n"
+#   only return the top_n most frequent values.
+
+
 def count_by_field(*records, field, **options):
     pass
+
+
+# Test 1
+print(
+    count_by_field(
+        {"name": "Alice", "status": "active"},
+        {"name": "Bob", "status": "inactive"},
+        {"name": "Charlie", "status": "active"},
+        field="status",
+    )
+)
+# Expected: {"active": 2, "inactive": 1}
+
+
+# Test 2
+print(
+    count_by_field(
+        {"status": "active"},
+        {"status": "inactive"},
+        {"status": "pending"},
+        {"status": "active"},
+        {"status": "pending"},
+        {"status": "active"},
+        field="status",
+    )
+)
+# Expected: {"active": 3, "pending": 2, "inactive": 1}
+
+
+# Test 3
+print(
+    count_by_field(
+        {"name": "Alice", "role": "admin"},
+        {"name": "Bob", "role": "user"},
+        {"name": "Charlie", "role": "user"},
+        {"name": "Dave", "role": "admin"},
+        {"name": "Eve", "role": "user"},
+        field="role",
+    )
+)
+# Expected: {"user": 3, "admin": 2}
+
+
+# Test 4 — top_n
+print(
+    count_by_field(
+        {"status": "active"},
+        {"status": "inactive"},
+        {"status": "active"},
+        {"status": "pending"},
+        {"status": "active"},
+        {"status": "inactive"},
+        field="status",
+        top_n=1,
+    )
+)
+# Expected: {"active": 3}
+
+
+# Test 5 — top_n=2
+print(
+    count_by_field(
+        {"status": "active"},
+        {"status": "inactive"},
+        {"status": "active"},
+        {"status": "pending"},
+        {"status": "active"},
+        {"status": "inactive"},
+        {"status": "pending"},
+        {"status": "pending"},
+        field="status",
+        top_n=2,
+    )
+)
+# Expected: {"pending": 3, "active": 3}
+
+
+# Test 6 — no records
+print(count_by_field(field="status"))
+# Expected: {}
+
+
+def count_types(*values):
+    type_dict = {
+        "int": 0,
+        "str": 0,
+        "float": 0,
+        "bool": 0,
+    }
+
+    if not values:
+        return type_dict
+
+    for value in values:
+        if isinstance(value, bool):
+            type_dict["bool"] += 1
+        elif isinstance(value, int):
+            type_dict["int"] += 1
+        elif isinstance(value, str):
+            type_dict["str"] += 1
+        elif isinstance(value, float):
+            type_dict["float"] += 1
+
+    return type_dict
+
+
+print(count_types(1, 2, "hello", 3.5, "world", True, 4))
+
+"""
+{
+    int: 3,
+    str: 2,
+    float: 1,
+    bool: 1
+}
+"""
+
+
+def group_by_field(*records, field):
+    new_dict = {}
+
+    for record in records:
+        field_value = record.get(field)
+
+        if field_value not in new_dict:
+            new_dict[field_value] = []
+        new_dict[field_value].append(record)
+
+    return new_dict
+
+
+records = [
+    {"name": "Alice", "role": "admin"},
+    {"name": "Bob", "role": "user"},
+    {"name": "Charlie", "role": "admin"},
+    {"name": "Dave", "role": "user"},
+]
+
+print(group_by_field(*records, field="role"))
+
+"""
+{
+    "admin": [
+        {"name": "Alice", "role": "admin"},
+        {"name": "Charlie", "role": "admin"},
+    ],
+    "user": [
+        {"name": "Bob", "role": "user"},
+        {"name": "Dave", "role": "user"},
+    ],
+}
+"""
