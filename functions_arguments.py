@@ -712,6 +712,8 @@ print(group_by_field(*records, field="role"))
 }
 """
 
+print(40 * "-")
+
 
 def validate_records(*records, **rules):
     """
@@ -727,7 +729,20 @@ def validate_records(*records, **rules):
     Do not modify the original records.
     Each invalid record should appear only once in the result.
     """
-    pass
+    invalid_records = []
+    for record in records:
+        invalid = False
+
+        for key, value in rules.items():
+            field = record.get(key)
+
+            if field is None or not isinstance(field, value):
+                invalid = True
+
+        if invalid:
+            invalid_records.append(record)
+
+    return invalid_records
 
 
 # Example usage:
