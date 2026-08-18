@@ -536,9 +536,28 @@ print(
 # If options includes "top_n"
 #   only return the top_n most frequent values.
 
+print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+
 
 def count_by_field(*records, field, **options):
-    pass
+    field_dict = {}
+
+    for record in records:
+        field_value = record.get(field)
+        if field_value not in field_dict:
+            field_dict[field_value] = 0
+        field_dict[field_value] += 1
+
+    if "top_n" not in options:
+        return field_dict
+
+    return dict(
+        sorted(
+            field_dict.items(),
+            key=lambda pair: pair[1],
+            reverse=True,
+        )[: options["top_n"]]
+    )
 
 
 # Test 1
@@ -566,8 +585,11 @@ print(
     )
 )
 # Expected: {"active": 3, "pending": 2, "inactive": 1}
-
-
+"""
+i want to loop over all the records given:
+use the field as a keyword to get the values that i want:
+    and then return a dict with the field and number of times key == field appear.
+"""
 # Test 3
 print(
     count_by_field(
