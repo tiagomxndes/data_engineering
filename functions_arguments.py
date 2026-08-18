@@ -369,6 +369,108 @@ print(
         region="EU",
     )
 )
+"""
+Extra practice — validation pattern (check multiple conditions, decide once)
+Same shape every time: reset a flag/list once per item, only update it while
+checking that item, decide what to do with it only AFTER all checks are done.
+"""
+
+print("\n")
+
+
+# ============================================================
+# 1. all_fields_present — simplest version, no records loop yet
+# ============================================================
+# row is keyword data (e.g. id=1, name="Sam", email=None).
+# Return True if every value in row is NOT None. If any value IS None,
+# return False and a list of which field names were null.
+def all_fields_present(**row):
+
+    fields_null = []
+
+    for field in row:
+        if row.get(field) is None:
+            fields_null.append(field)
+
+    if fields_null:
+        return False, fields_null
+    return True
+
+
+print(all_fields_present(id=1, name="Sam", email="sam@x.com"))
+# expect: True
+
+print(all_fields_present(id=1, name="Sam", email=None))
+# expect: False, ["email"]
+
+
+# ============================================================
+# 2. records_in_range — same flag pattern, now looping over records
+# ============================================================
+# Each record is a dict with a "value" field (e.g. {"id": 1, "value": 50}).
+# bounds may include "min_value" and "max_value" as keyword args.
+# A record only passes if it satisfies EVERY bound given. If a bound
+# wasn't given at all, don't check it (e.g. no max_value means no upper
+# limit). Return a list of the records that pass.
+def records_in_range(*records, **bounds):
+    passed_records = []
+    for record in records:
+        matches = True
+        min_value = bounds.get("min_value")
+        max_value = bounds.get("max_value")
+
+        if min_value is not None and min_value > record["value"]:
+            matches = False
+        if max_value is not None and max_value < record["value"]:
+            matches = False
+        if matches:
+            passed_records.append(record)
+
+    return passed_records
+
+
+print(
+    records_in_range(
+        {"id": 1, "value": 50},
+        {"id": 2, "value": 150},
+        {"id": 3, "value": -10},
+        min_value=0,
+        max_value=100,
+    )
+)
+# expect: [{"id": 0, "value": 50}]  (2 is too high, 3 is too low)
+
+print(records_in_range({"id": 1, "value": 50}, min_value=0))
+
+
+# ============================================================
+# 3. validate_batch — HARDEST, combines both patterns above
+# ============================================================
+# rules maps field name -> expected type (e.g. id=int, name=str).
+# For each record (a dict), check every field named in rules: does the
+# record have that field, AND is it the right type? A record only fully
+# passes if it satisfies every rule.
+# Return a list of (record, list_of_problem_fields) ONLY for records that
+# failed at least one rule. Records that pass everything aren't included
+# at all.
+def validate_batch(*records, **rules):
+    pass
+
+
+print(
+    validate_batch(
+        {"id": 1, "name": "Sam"},
+        {"id": "two", "name": "Alex"},
+        {"id": 3},
+        id=int,
+        name=str,
+    )
+)
+# expect something like:
+# [
+#   ({"id": "two", "name": "Alex"}, ["id"]),       # id is wrong type
+#   ({"id": 3}, ["name"])                          # name is missing
+# ]
 
 
 # ============================================================
