@@ -447,15 +447,66 @@ print(records_in_range({"id": 1, "value": 50}, min_value=0))
 # 3. validate_batch — HARDEST, combines both patterns above
 # ============================================================
 # rules maps field name -> expected type (e.g. id=int, name=str).
-# For each record (a dict), check every field named in rules: does the
-# record have that field, AND is it the right type? A record only fully
-# passes if it satisfies every rule.
-# Return a list of (record, list_of_problem_fields) ONLY for records that
-# failed at least one rule. Records that pass everything aren't included
-# at all.
-def validate_batch(*records, **rules):
-    pass
 
+# For each record (a dict), check every field named in rules:
+
+# Does the record have that field, AND is it the right type?
+# A record only fully passes if it satisfies every rule.
+
+# Return a list of (record, list_of_problem_fields) ONLY for records that
+# failed at least one rule.
+
+# Records that pass everything aren't included at all.
+
+"""
+rules -> field name (id=int, name=str)
+
+rules = {"id": int, "name": str}
+
+records = {"id": 1, "name": "Sam"}, {"id": "two", "name": "Alex"}, {"id": 3},
+
+"""
+# Does the record have that field, AND is it the right type?
+
+
+def validate_batch(*records, **rules):
+    final_list = []
+
+    for record in records:
+        failed_fields = []
+
+        for key, value in rules.items():
+            field = record.get(key)
+
+            if field is None or not isinstance(field, value):
+                failed_fields.append(key)
+
+        if failed_fields:
+            final_list.append((record, failed_fields))
+
+    return final_list
+
+
+"""
+
+Failed attempt
+
+def validate_batch(*records, **rules):
+    bad_records = []
+    for record in records:
+        list_of_problem_fields = []
+        matches = True
+        for key, value in rules.items():
+            if record.get(key) is None:
+                matches = False
+                bad_records.append(record)
+            if not isinstance(record.get(key), value):
+                matches = False
+            if matches:
+                list_of_problem_fields.append(record)
+
+    return list_of_problem_fields
+"""
 
 print(
     validate_batch(
