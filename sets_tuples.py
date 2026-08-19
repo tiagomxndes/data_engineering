@@ -73,9 +73,12 @@ Main goals this week:
 
 
 def create_number_set():
-    pass
+    number_set = {1, 2, 3, 4}
+    print(number_set)
 
 
+create_number_set()
+print(40 * "-")
 # ------------------------------------------------------------
 # THEORY: .add()
 # ------------------------------------------------------------
@@ -108,23 +111,23 @@ def create_number_set():
 numbers = {1, 2, 3, 4}
 
 # YOUR CODE HERE
-
+numbers.add(5)
 
 print(numbers)
-
+print(40 * "-")
 
 # 3. Try adding the number 3 to the set above.
 #    Print the result.
-#
+
 #    The goal is to observe what happens when you add a duplicate.
 
 
 # YOUR CODE HERE
-
+numbers.add(3)
 
 print(numbers)
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # THEORY: .update()
 # ------------------------------------------------------------
@@ -167,10 +170,10 @@ print(numbers)
 numbers = {1, 2, 3}
 
 # YOUR CODE HERE
-
+numbers.update([4, 5, 6])
 
 print(numbers)
-
+print(40 * "-")
 
 # 5. Add the following values using .update():
 #
@@ -180,8 +183,11 @@ print(numbers)
 
 
 # YOUR CODE HERE
+empty_set = set()
+empty_set.update(["python", "linux", "git"])
+print(empty_set)
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # THEORY: Lists vs Sets
 # ------------------------------------------------------------
@@ -223,14 +229,15 @@ print(numbers)
 
 # 6. Given this list:
 #
-#       languages = ["Python", "Python", "Go", "Rust", "Go", "Python"]
+languages = ["Python", "Python", "Go", "Rust", "Go", "Python"]
 #
 # Convert it into a set and print the result.
-
+set_languages = set(languages)
+print(set_languages)
 
 # YOUR CODE HERE
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # THEORY: Tuples
 # ------------------------------------------------------------
@@ -278,7 +285,11 @@ print(numbers)
 #
 # Print the tuple.
 
+languages_tuple = ("Python", "Linux", "Git")
+print(languages_tuple)
+print(type(languages_tuple))
 
+print(40 * "-")
 # YOUR CODE HERE
 
 
@@ -286,7 +297,8 @@ print(numbers)
 tools = ("Neovim", "Git", "Linux", "Python")
 
 # YOUR CODE HERE
-
+print(tools[1])
+print(40 * "-")
 
 # ------------------------------------------------------------
 # THEORY: Tuple unpacking
@@ -319,7 +331,11 @@ tools = ("Neovim", "Git", "Linux", "Python")
 coordinates = (10, 20, 30)
 
 # YOUR CODE HERE
+x, y, z = coordinates
 
+print(x, y, z)
+
+print(40 * "-")
 
 # ------------------------------------------------------------
 # THEORY: Returning multiple values
@@ -356,9 +372,11 @@ def get_person():
     age = 25
 
     # YOUR CODE HERE
+    return name, age
 
 
 print(get_person())
+print(40 * "-")
 
 
 # ============================================================
@@ -387,12 +405,12 @@ print(get_person())
 
 
 def remove_duplicates(items):
-    pass
+    return set(items)
 
 
 print(remove_duplicates([1, 2, 2, 3, 3, 3]))
 print(remove_duplicates(["python", "python", "linux", "git", "linux"]))
-
+print(40 * "-")
 
 # ------------------------------------------------------------
 # B. Add several items to a set
@@ -413,11 +431,17 @@ print(remove_duplicates(["python", "python", "linux", "git", "linux"]))
 
 
 def add_tools(tools):
-    pass
+
+    new_set = set()
+    new_set.add("Python")
+    new_set.add("Linux")
+    new_set.update(["Git", "Neovim", "Bash"])
+
+    return new_set
 
 
 print(add_tools([]))
-
+print(40 * "-")
 
 # ------------------------------------------------------------
 # C. Return two values
@@ -442,11 +466,11 @@ print(add_tools([]))
 
 
 def get_min_max(numbers):
-    pass
+    return min(numbers), max(numbers)
 
 
 print(get_min_max([5, 2, 9, 1, 7]))
-
+print(40 * "-")
 
 # ============================================================
 # PART 3 — BUILD FROM SCRATCH
@@ -492,7 +516,7 @@ print(get_min_max([5, 2, 9, 1, 7]))
 
 
 def unique_tags(tags):
-    pass
+    return set(tags)
 
 
 print(
@@ -507,7 +531,7 @@ print(
     )
 )
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # B. EASY/MEDIUM — Track seen users
 # ------------------------------------------------------------
@@ -541,7 +565,11 @@ print(
 
 
 def find_unique_users(users):
-    pass
+    new_set = set()
+    for user in users:
+        new_set.add(user)
+
+    return new_set
 
 
 print(
@@ -556,7 +584,7 @@ print(
     )
 )
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # C. MEDIUM — Combine groups
 # ------------------------------------------------------------
@@ -582,7 +610,12 @@ print(
 
 
 def combine_tools(primary_tools, extra_tools):
-    pass
+    set_primary = set(primary_tools)
+
+    for tool in extra_tools:
+        set_primary.add(tool)
+
+    return set_primary
 
 
 print(
@@ -592,7 +625,7 @@ print(
     )
 )
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # D. MEDIUM — Analyse a list
 # ------------------------------------------------------------
@@ -623,11 +656,16 @@ print(
 
 
 def analyse_numbers(numbers):
-    pass
+
+    if not numbers:
+        return ()
+
+    unique_nums = len(set(numbers))
+    return min(numbers), max(numbers), unique_nums
 
 
 print(analyse_numbers([4, 2, 7, 2, 4, 9]))
-
+print(40 * "-")
 
 # ------------------------------------------------------------
 # E. HARD — Process records
@@ -670,7 +708,19 @@ print(analyse_numbers([4, 2, 7, 2, 4, 9]))
 
 
 def analyse_records(*records):
-    pass
+    unique_usernames = set()
+    successful_records = 0
+
+    for record in records:
+        username = record["user"]
+
+        if username not in unique_usernames:
+            unique_usernames.update([record.get("user")])
+
+        if record["status"] == "success":
+            successful_records += 1
+
+    return unique_usernames, successful_records
 
 
 print(
@@ -682,6 +732,7 @@ print(
     )
 )
 
+print(40 * "-")
 
 # ------------------------------------------------------------
 # F. HARDEST — Batch summary
@@ -755,7 +806,28 @@ print(
 
 
 def batch_summary(*records):
-    pass
+    unique_users = set()
+    unique_categories = set()
+    successful_status = 0
+    failed_status = 0
+
+    for record in records:
+        user = record.get("user")
+        category = record.get("category")
+        record_status = record.get("status")
+
+        if user not in unique_users:
+            unique_users.update([user])
+
+        if category not in unique_categories:
+            unique_categories.update([category])
+
+        if record_status == "error":
+            failed_status += 1
+        elif record_status == "success":
+            successful_status += 1
+
+    return unique_users, unique_categories, successful_status, failed_status
 
 
 print(
