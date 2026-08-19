@@ -186,21 +186,49 @@ print(find_first_negative([1, 2, 3]))
 print(find_first_negative([1, -2, 3]))
 print(find_first_negative([0, 0, 0]))
 
-print(find_first_negative2([4, 7, 2, -3, 9, -1]))
+print(find_first_negative_2([4, 7, 2, -3, 9, -1]))
 print(find_first_negative_2([1, 2, 3]))
 print(find_first_negative_2([1, -2, 3]))
 print(find_first_negative_2([0, 0, 0]))
+
+
 # C. HARDEST — data engineering flavored
 # Write a function drain_queue(*records) that simulates processing a
 # queue of records one at a time using a while loop (not a for loop).
-# Convert `records` to a list first so you can pop from it. For each
-# record (a dict with a "status" field):
+
+
 #   - if status is "error", stop processing immediately (break) and
 #     return two things: the list of records successfully processed so
 #     far, and the record that caused the stop
+#
 #   - otherwise, add it to the processed list and continue
 # If the queue empties without hitting an error, return the processed
 # list and None (no error record).
+
+print(40 * "-")
+
+
+def drain_queue(*records):
+    records_as_list = list(records)
+    successful_records = []
+
+    while records_as_list:
+        record = records_as_list.pop(0)
+
+        if record["status"] == "error":
+            return successful_records, record
+        else:
+            successful_records.append(record)
+
+    return successful_records, None
+
+
 # Test with:
-#   drain_queue({"id": 1, "status": "ok"}, {"id": 2, "status": "ok"},
-#               {"id": 3, "status": "error"}, {"id": 4, "status": "ok"})
+print(
+    drain_queue(
+        {"id": 1, "status": "ok"},
+        {"id": 2, "status": "ok"},
+        {"id": 3, "status": "error"},
+        {"id": 4, "status": "ok"},
+    )
+)
