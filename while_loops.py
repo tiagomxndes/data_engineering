@@ -112,7 +112,12 @@ print(process_until_stop())
 # 5. Write a while True loop that starts a counter at 0, increments it
 #    each pass, prints it, and breaks out once the counter reaches 4.
 def infinite_with_break():
-    pass
+    counter = 0
+    while True:
+        if counter == 4:
+            break
+        print(counter)
+        counter += 1
 
 
 infinite_with_break()
@@ -130,6 +135,17 @@ infinite_with_break()
 # Write a function countdown(start) that uses a while loop to print
 # numbers from `start` down to 1, then prints "Liftoff!" at the end.
 # Test with countdown(5).
+print(40 * "-")
+
+
+def countdown(start):
+    while start > 0:
+        print(start)
+        start -= 1
+    print("Liftoff!")
+
+
+print(countdown(5))
 
 
 # B. MEDIUM
@@ -140,7 +156,40 @@ infinite_with_break()
 # Test with find_first_negative([4, 7, 2, -3, 9, -1]) and
 # find_first_negative([1, 2, 3]).
 
+print(40 * "-")
 
+
+def find_first_negative(numbers):
+
+    while numbers:
+        popped_number = numbers.pop(0)
+
+        if popped_number < 0:
+            break
+
+    if popped_number < 0:  # this is dead code
+        return popped_number
+    return None
+
+
+def find_first_negative_2(numbers):
+    i = 0
+    while i < len(numbers):
+        if numbers[i] < 0:
+            return numbers[i]
+        i += 1
+    return None
+
+
+print(find_first_negative([4, 7, 2, -3, 9, -1]))
+print(find_first_negative([1, 2, 3]))
+print(find_first_negative([1, -2, 3]))
+print(find_first_negative([0, 0, 0]))
+
+print(find_first_negative2([4, 7, 2, -3, 9, -1]))
+print(find_first_negative_2([1, 2, 3]))
+print(find_first_negative_2([1, -2, 3]))
+print(find_first_negative_2([0, 0, 0]))
 # C. HARDEST — data engineering flavored
 # Write a function drain_queue(*records) that simulates processing a
 # queue of records one at a time using a while loop (not a for loop).
