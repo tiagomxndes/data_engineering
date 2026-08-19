@@ -21,7 +21,11 @@ broke, and send it back anyway.
 
 # 1. Write a while loop that prints numbers 1 through 5 (inclusive).
 def count_up_to_five():
-    pass
+    count = 1
+
+    while count < 6:
+        print(count)
+        count += 1
 
 
 count_up_to_five()
@@ -37,7 +41,14 @@ count_up_to_five()
 #    printing each value, and stops (using break) as soon as the value
 #    exceeds 100.
 def double_until_over_100():
-    pass
+    start = 1
+
+    while True:
+        print(start)
+        start *= 2
+
+        if start > 100:
+            break
 
 
 double_until_over_100()
@@ -48,11 +59,20 @@ double_until_over_100()
 # re-check the while condition — it does NOT exit the loop, just skips
 # ahead to the next round.
 
+print(40 * "-")
+
 
 # 3. Write a while loop that goes from 1 to 10, but SKIPS printing any
 #    even number (use continue for the even ones).
 def print_odds_only():
-    pass
+    start = 0
+
+    while start != 10:
+        start += 1
+        if start % 2 == 0:
+            continue
+
+        print(start)
 
 
 print_odds_only()
@@ -70,10 +90,16 @@ print_odds_only()
 #    the value "STOP" — do not process "STOP" itself, just stop there.
 def process_until_stop():
     data = ["a", "b", "c", "STOP", "d", "e"]
-    pass
+
+    while True:
+        item = data.pop(0)
+        if item == "STOP":
+            break
+
+    return data
 
 
-process_until_stop()
+print(process_until_stop())
 
 
 # --- THEORY: Infinite loop with a real exit condition ---
