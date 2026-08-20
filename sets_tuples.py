@@ -611,9 +611,7 @@ print(40 * "-")
 
 def combine_tools(primary_tools, extra_tools):
     set_primary = set(primary_tools)
-
-    for tool in extra_tools:
-        set_primary.add(tool)
+    set_primary.update(extra_tools)
 
     return set_primary
 
@@ -712,10 +710,7 @@ def analyse_records(*records):
     successful_records = 0
 
     for record in records:
-        username = record["user"]
-
-        if username not in unique_usernames:
-            unique_usernames.update([record.get("user")])
+        unique_usernames.add(record.get("user"))
 
         if record["status"] == "success":
             successful_records += 1
@@ -849,3 +844,199 @@ print(
         },
     )
 )
+
+"""
+Week 3 — Sets & Tuples
+Read each theory block, then fill in the exercise below it. Don't look
+anything up — if you get stuck, write down what you tried and where it
+broke, and send it back anyway.
+"""
+
+# ============================================================
+# PART 1 — Isolated exercises (one concept each)
+# ============================================================
+
+# --- THEORY: What a set actually is ---
+# A set is an unordered collection of UNIQUE values — duplicates are
+# automatically dropped, and there's no guaranteed order (unlike lists).
+# s = {1, 2, 2, 3}  →  {1, 2, 3}
+# Sets are built for fast membership checks (`x in my_set`) and for
+# operations like union, intersection, and difference.
+
+print(40 * "-")
+
+
+# 1. Create a set from this list (which has duplicates), and print it.
+def dedupe_list():
+    values = [1, 2, 2, 3, 3, 3, 4]
+    print(set(values))
+
+
+dedupe_list()
+
+print(40 * "-")
+# --- THEORY: .add() vs .update() ---
+# .add(x)     → adds ONE item to the set.
+# .update(iterable) → merges in MULTIPLE items from a list/set/etc.
+# Adding something already present is a silent no-op — no error, no
+# duplicate.
+
+
+# 2. Start with an empty set. Use .add() to add "a", "b", and "c" one at
+#    a time (three separate calls). Then use .update() ONCE to merge in
+#    the list ["c", "d", "e"] all at once. Print the final set — "c"
+#    should only appear once.
+def build_set():
+    empty_set = set()
+    empty_set.add("a")
+    empty_set.add("b")
+    empty_set.add("c")
+    empty_set.update(["c", "d", "e"])
+    print(empty_set)
+
+
+build_set()
+
+
+# --- THEORY: .remove() vs .discard() ---
+# .remove(x)  → removes x; raises a KeyError if x isn't in the set.
+# .discard(x) → removes x if present; does nothing (no error) if it's not.
+
+
+# 3. Given the set below, use .discard() to remove "banana" (present)
+#    and also try to .discard() "kiwi" (not present) — confirm neither
+#    line causes an error. Print the set after both calls.
+def safe_remove():
+    fruits = {"apple", "banana", "cherry"}
+
+    fruits.remove("banana")
+    print(fruits)
+
+    fruits.discard("kiwi")
+    print(fruits)
+
+
+safe_remove()
+
+print(40 * "-")
+# --- THEORY: Set operations ---
+# union (|)        → everything in either set
+# intersection (&) → only what's in BOTH sets
+# difference (-)   → in the first set but NOT the second
+
+
+# 4. Given team_a and team_b below, print: the union (everyone), the
+#    intersection (people on both teams), and the difference of
+#    team_a - team_b (people only on team_a).
+def compare_teams():
+    team_a = {"sam", "jo", "alex"}
+    team_b = {"jo", "riley", "sam"}
+
+    union = team_a | team_b
+    intersection = team_a & team_b
+    difference = team_a - team_b
+
+    print(union)
+    print(intersection)
+    print(difference)
+
+
+compare_teams()
+print(40 * "-")
+
+# --- THEORY: Tuples — creation and unpacking ---
+# A tuple is like a list, but immutable (can't be changed after
+# creation). Common use: returning multiple values from a function, or
+# grouping related fixed data.
+# point = (3, 4)
+# x, y = point   → unpacking: x=3, y=4
+
+
+# 5. Create a tuple representing a point (x=10, y=20). Unpack it into
+#    two separate variables x and y, then print them.
+def unpack_point():
+    point = (10, 20)
+    x, y = point
+
+    print(x)
+    print(y)
+
+
+unpack_point()
+print(40 * "-")
+
+# ============================================================
+# PART 2 — Build from scratch (easiest → hardest)
+# ============================================================
+
+# --- THEORY ---
+# These combine everything above — sets for uniqueness/operations,
+# tuples for fixed grouped data or multiple returns.
+
+# A. EASIEST
+# Write a function unique_tags(*tag_lists) where each argument is a list
+# of tags (e.g. ["python", "api"], ["python", "sql"]). Return a single
+# set containing every unique tag across all the lists.
+# Test with unique_tags(["python", "api"], ["python", "sql"], ["api", "etl"]).
+
+
+def unique_tags(*tag_lists):
+    uni_tags = set()
+
+    for tag_list in tag_lists:
+        for tag in tag_list:
+            uni_tags.add(tag)
+
+    return uni_tags
+
+
+print(unique_tags(["python", "api"], ["python", "sql"], ["api", "etl"]))
+
+# B. MEDIUM
+# Write a function common_columns(*column_sets) where each argument is a
+# set of column names from a different data source. Return the set of
+# column names that appear in EVERY source (use intersection). If no
+# argument is given, return an empty set.
+# Test with common_columns({"id", "name", "email"}, {"id", "email", "age"},
+#                           {"id", "email", "city"}).
+
+
+def common_columns(*column_sets):
+
+    if not column_sets:
+        return set()
+
+    result = column_sets[0]
+
+    for current_result in column_sets[1:]:
+        result = result & current_result
+
+    return result
+
+
+print(
+    common_columns(
+        {"id", "name", "email"}, {"id", "email", "age"}, {"id", "email", "city"}
+    )
+)
+
+# C. HARDEST — data engineering flavored
+# Write a function diff_snapshots(old_ids, new_ids) where both are sets
+# of record IDs from two points in time. Return a TUPLE of three sets:
+#   1. IDs that were added (in new_ids but not old_ids)
+#   2. IDs that were removed (in old_ids but not new_ids)
+#   3. IDs that stayed the same (in both)
+
+
+def diff_snapshots(old_ids, new_ids):
+
+    added_ids = new_ids - old_ids
+    removed_ids = old_ids - new_ids
+    stayed_ids = new_ids & old_ids
+
+    return added_ids, removed_ids, stayed_ids
+
+
+# Test with:
+print(diff_snapshots({1, 2, 3, 4}, {2, 3, 4, 5}))
+#   # expect: ({5}, {1}, {2, 3, 4})
