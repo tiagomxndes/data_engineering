@@ -72,6 +72,7 @@
 # that prints the current working directory.
 
 import os
+from os.path import isdir
 
 
 def show_current_directory():
@@ -548,7 +549,7 @@ print(
     )
 )
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # C. MEDIUM — Scan Project
 # ------------------------------------------------------------
@@ -573,7 +574,27 @@ print(
 
 
 def scan_project(path):
-    pass
+    content_folder = os.listdir(path)
+    num_files = 0
+    num_dir = 0
+    unique_ext = set()
+
+    for content in content_folder:
+        full_path = os.path.join(path, content)
+
+        if os.path.isdir(full_path):
+            num_dir += 1
+        elif os.path.isfile(full_path):
+            num_files += 1
+
+            _, extension = os.path.splitext(content)
+            if extension:
+                unique_ext.add(extension[1:])
+
+    return num_files, num_dir, unique_ext
+
+
+print(scan_project("sample_project"))
 
 
 # ------------------------------------------------------------
