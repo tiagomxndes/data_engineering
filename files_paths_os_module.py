@@ -494,7 +494,7 @@ def find_log_files(path):
 
 
 print(find_log_files("test_logs"))
-
+print(40 * "-")
 
 # ------------------------------------------------------------
 # B. EASY / MEDIUM — Organize uploads
@@ -524,7 +524,29 @@ print(find_log_files("test_logs"))
 
 
 def organize_uploads(files):
-    pass
+    org_dict = {}
+
+    for file in files:
+        _, extension = os.path.splitext(file)
+
+        if extension not in org_dict:
+            org_dict[extension] = []
+        org_dict[extension].append(file)
+
+    return org_dict
+
+
+print(
+    organize_uploads(
+        [
+            "cat.jpg",
+            "resume.pdf",
+            "dog.png",
+            "notes.txt",
+            "hello.jpg",
+        ]
+    )
+)
 
 
 # ------------------------------------------------------------
