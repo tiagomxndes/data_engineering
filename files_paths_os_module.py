@@ -75,7 +75,11 @@ import os
 
 
 def show_current_directory():
+<<<<<<< HEAD
     pass
+=======
+    print(os.getcwd())
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 show_current_directory()
@@ -128,7 +132,13 @@ print(40 * "-")
 
 
 def list_current_directory():
+<<<<<<< HEAD
     pass
+=======
+    cwd = os.getcwd()
+
+    print(os.listdir(cwd))
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 list_current_directory()
@@ -182,7 +192,13 @@ print(40 * "-")
 
 
 def build_log_path(filename):
+<<<<<<< HEAD
     pass
+=======
+    path = os.path.join("logs", filename)
+
+    return path
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(build_log_path("today.log"))
@@ -220,7 +236,11 @@ print(40 * "-")
 
 
 def file_exists(path):
+<<<<<<< HEAD
     pass
+=======
+    return os.path.exists(path)
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(file_exists("test.txt"))
@@ -270,7 +290,16 @@ print(40 * "-")
 
 
 def describe_path(path):
+<<<<<<< HEAD
     pass
+=======
+    if os.path.isdir(path):
+        return "directory"
+
+    if os.path.isfile(path):
+        return "file"
+    return "missing"
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(describe_path("."))
@@ -317,9 +346,26 @@ print(40 * "-")
 
 
 def find_python_files(path):
+<<<<<<< HEAD
     pass
 
 
+=======
+    list_filenames = []
+
+    files = os.listdir(path)
+
+    for file in files:
+        if file.endswith(".py"):
+            list_filenames.append(file)
+
+    return list_filenames
+
+    print(list_filenames)
+
+
+print(find_python_files("."))
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 # ------------------------------------------------------------
 # B. Count Files
 # ------------------------------------------------------------
@@ -338,6 +384,7 @@ def find_python_files(path):
 #
 # +
 #
+<<<<<<< HEAD
 # os.path.isfile()
 
 
@@ -348,6 +395,45 @@ def count_files(path):
 # ------------------------------------------------------------
 # C. Build Project Paths
 # ------------------------------------------------------------
+=======
+# os.path.isfile(
+#
+"""
+First version test:
+
+directory_content = os.listdir(path)
+
+for content in directory_content:
+  if os.path.isfile(content):
+
+the problem here is that content is ONLY THE FILENAME not the LOCATION OF THE FILE.
+
+os.listdir() -> Gives you the name.
+os.path.join() -> gives the location.
+
+
+"""
+
+
+def count_files(path):
+    counter = 0
+    directory_content = os.listdir(path)
+
+    for content in directory_content:
+        full_path = os.path.join(path, content)
+
+        if os.path.isfile(full_path):
+            counter += 1
+
+    return counter
+
+
+print(count_files("."))
+
+# ------------------------------------------------------------
+# C. Build Project Paths
+# ----------------------------------------------------------
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 #
 # Write:
 #
@@ -362,12 +448,47 @@ def count_files(path):
 # )
 #
 # Use os.path.join().
+<<<<<<< HEAD
 
 
 def build_project_paths(project_name):
     pass
 
 
+=======
+"""
+My mistake:
+
+I interpreted the exercise as like a folder inside a folder when in reality,
+it's the project folder and inside we have the two different ones:
+    -> config_path
+    -> logs_path
+
+bruh..
+
+def build_project_paths(project_name):
+    project_folder = project_name
+    config_path = os.path.join(project_folder, "config"_)
+    logs_path = os.path.join(config_path, "logs")
+
+    return project_folder, config_path, logs_path
+"""
+
+
+def build_project_paths(project_name):
+    project_folder = project_name
+    config_path = os.path.join(project_folder, "config")
+    logs_path = os.path.join(project_folder, "logs")
+
+    return project_folder, config_path, logs_path
+
+
+print(build_project_paths("my_project"))
+# -> ('my_project', 'my_project/config', 'my_project/logs')
+
+
+print(40 * "-")
+>>>>>>> e8ce27f (Completed most of the exercises until easy!)
 # ============================================================
 # PART 3 — BUILD FROM SCRATCH
 # ============================================================
@@ -401,9 +522,121 @@ def build_project_paths(project_name):
 
 
 def find_log_files(path):
+    ending_with_log = []
+
+    for content in folder_content:
+        if content.endswith(".log"):
+            ending_with_log.append(content)
+
+    return ending_with_log
+
+
+print(find_log_files("test_logs"))
+
+# ------------------------------------------------------------
+# B. EASY / MEDIUM — Organize uploads
+# ------------------------------------------------------------
+#
+# Given:
+#
+# [
+#     "cat.jpg",
+#     "resume.pdf",
+#     "dog.png",
+#     "notes.txt",
+# ]
+#
+# Return:
+#
+# {
+#     "jpg": ["cat.jpg"],
+#     "pdf": ["resume.pdf"],
+#     "png": ["dog.png"],
+#     "txt": ["notes.txt"],
+# }
+#
+# Hint:
+#
+# Think about dictionaries.
+
+
+def organize_uploads(files):
     pass
 
 
+# ------------------------------------------------------------
+# C. MEDIUM — Scan Project
+# ------------------------------------------------------------
+#
+# Write:
+#
+#     scan_project(path)
+#
+# Return a tuple containing:
+#
+# 1. Number of files
+# 2. Number of directories
+# 3. A SET containing every unique file extension
+#
+# Example:
+#
+# (
+#     12,
+#     4,
+#     {"py", "csv", "json"}
+# )
+
+
+def scan_project(path):
+    pass
+
+
+# ------------------------------------------------------------
+# D. HARD — Log Summary
+# ------------------------------------------------------------
+#
+# Given a directory,
+# return a tuple containing:
+#
+# 1. Total .log files
+# 2. Total .txt files
+# 3. Set of unique extensions
+# 4. List of filenames longer than 20 characters
+#
+# Think carefully about which variables should be
+# integers, lists and sets.
+
+
+def log_summary(path):
+    pass
+
+
+# ------------------------------------------------------------
+# E. HARDEST — Mini Dataset Scanner
+# ------------------------------------------------------------
+#
+# Data engineering flavored.
+#
+# Imagine someone gives you a folder full of data.
+#
+# Write:
+#
+#     scan_dataset(path)
+#
+# Return a tuple containing:
+#
+# 1. List of CSV files
+# 2. List of JSON files
+# 3. Set of every unique extension found
+# 4. Total number of files
+# 5. Total number of directories
+#
+# This is similar to a utility that runs before an ETL
+# pipeline begins processing data.
+
+
+def scan_dataset(path):
+    pass
 # ------------------------------------------------------------
 # B. EASY / MEDIUM — Organize uploads
 # ------------------------------------------------------------
