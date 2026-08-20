@@ -816,11 +816,8 @@ def batch_summary(*records):
         category = record.get("category")
         record_status = record.get("status")
 
-        if user not in unique_users:
-            unique_users.update([user])
-
-        if category not in unique_categories:
-            unique_categories.update([category])
+        unique_users.add(user)
+        unique_categories.add(category)
 
         if record_status == "error":
             failed_status += 1
