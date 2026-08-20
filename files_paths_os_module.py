@@ -75,11 +75,7 @@ import os
 
 
 def show_current_directory():
-<<<<<<< HEAD
-    pass
-=======
     print(os.getcwd())
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 show_current_directory()
@@ -132,18 +128,15 @@ print(40 * "-")
 
 
 def list_current_directory():
-<<<<<<< HEAD
-    pass
-=======
     cwd = os.getcwd()
 
     print(os.listdir(cwd))
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 list_current_directory()
 
 print(40 * "-")
+
 
 # ------------------------------------------------------------
 # THEORY: Building Paths
@@ -192,18 +185,15 @@ print(40 * "-")
 
 
 def build_log_path(filename):
-<<<<<<< HEAD
-    pass
-=======
     path = os.path.join("logs", filename)
 
     return path
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(build_log_path("today.log"))
 
 print(40 * "-")
+
 
 # ------------------------------------------------------------
 # THEORY: Does Something Exist?
@@ -236,16 +226,13 @@ print(40 * "-")
 
 
 def file_exists(path):
-<<<<<<< HEAD
-    pass
-=======
     return os.path.exists(path)
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(file_exists("test.txt"))
 
 print(40 * "-")
+
 
 # ------------------------------------------------------------
 # THEORY: File or Directory?
@@ -290,21 +277,19 @@ print(40 * "-")
 
 
 def describe_path(path):
-<<<<<<< HEAD
-    pass
-=======
     if os.path.isdir(path):
         return "directory"
 
     if os.path.isfile(path):
         return "file"
+
     return "missing"
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
 
 
 print(describe_path("."))
 
 print(40 * "-")
+
 
 # ============================================================
 # PART 2 — EASY COMBINED EXERCISES
@@ -346,11 +331,6 @@ print(40 * "-")
 
 
 def find_python_files(path):
-<<<<<<< HEAD
-    pass
-
-
-=======
     list_filenames = []
 
     files = os.listdir(path)
@@ -361,11 +341,10 @@ def find_python_files(path):
 
     return list_filenames
 
-    print(list_filenames)
-
 
 print(find_python_files("."))
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
+
+
 # ------------------------------------------------------------
 # B. Count Files
 # ------------------------------------------------------------
@@ -384,34 +363,21 @@ print(find_python_files("."))
 #
 # +
 #
-<<<<<<< HEAD
 # os.path.isfile()
 
 
-def count_files(path):
-    pass
-
-
-# ------------------------------------------------------------
-# C. Build Project Paths
-# ------------------------------------------------------------
-=======
-# os.path.isfile(
-#
 """
 First version test:
 
 directory_content = os.listdir(path)
 
 for content in directory_content:
-  if os.path.isfile(content):
+    if os.path.isfile(content):
 
 the problem here is that content is ONLY THE FILENAME not the LOCATION OF THE FILE.
 
 os.listdir() -> Gives you the name.
 os.path.join() -> gives the location.
-
-
 """
 
 
@@ -430,10 +396,10 @@ def count_files(path):
 
 print(count_files("."))
 
+
 # ------------------------------------------------------------
 # C. Build Project Paths
-# ----------------------------------------------------------
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
+# ------------------------------------------------------------
 #
 # Write:
 #
@@ -448,14 +414,8 @@ print(count_files("."))
 # )
 #
 # Use os.path.join().
-<<<<<<< HEAD
 
 
-def build_project_paths(project_name):
-    pass
-
-
-=======
 """
 My mistake:
 
@@ -488,7 +448,8 @@ print(build_project_paths("my_project"))
 
 
 print(40 * "-")
->>>>>>> e8ce27f (Completed most of the exercises until easy!)
+
+
 # ============================================================
 # PART 3 — BUILD FROM SCRATCH
 # ============================================================
@@ -522,6 +483,7 @@ print(40 * "-")
 
 
 def find_log_files(path):
+    folder_content = os.listdir(path)
     ending_with_log = []
 
     for content in folder_content:
@@ -533,110 +495,7 @@ def find_log_files(path):
 
 print(find_log_files("test_logs"))
 
-# ------------------------------------------------------------
-# B. EASY / MEDIUM — Organize uploads
-# ------------------------------------------------------------
-#
-# Given:
-#
-# [
-#     "cat.jpg",
-#     "resume.pdf",
-#     "dog.png",
-#     "notes.txt",
-# ]
-#
-# Return:
-#
-# {
-#     "jpg": ["cat.jpg"],
-#     "pdf": ["resume.pdf"],
-#     "png": ["dog.png"],
-#     "txt": ["notes.txt"],
-# }
-#
-# Hint:
-#
-# Think about dictionaries.
 
-
-def organize_uploads(files):
-    pass
-
-
-# ------------------------------------------------------------
-# C. MEDIUM — Scan Project
-# ------------------------------------------------------------
-#
-# Write:
-#
-#     scan_project(path)
-#
-# Return a tuple containing:
-#
-# 1. Number of files
-# 2. Number of directories
-# 3. A SET containing every unique file extension
-#
-# Example:
-#
-# (
-#     12,
-#     4,
-#     {"py", "csv", "json"}
-# )
-
-
-def scan_project(path):
-    pass
-
-
-# ------------------------------------------------------------
-# D. HARD — Log Summary
-# ------------------------------------------------------------
-#
-# Given a directory,
-# return a tuple containing:
-#
-# 1. Total .log files
-# 2. Total .txt files
-# 3. Set of unique extensions
-# 4. List of filenames longer than 20 characters
-#
-# Think carefully about which variables should be
-# integers, lists and sets.
-
-
-def log_summary(path):
-    pass
-
-
-# ------------------------------------------------------------
-# E. HARDEST — Mini Dataset Scanner
-# ------------------------------------------------------------
-#
-# Data engineering flavored.
-#
-# Imagine someone gives you a folder full of data.
-#
-# Write:
-#
-#     scan_dataset(path)
-#
-# Return a tuple containing:
-#
-# 1. List of CSV files
-# 2. List of JSON files
-# 3. Set of every unique extension found
-# 4. Total number of files
-# 5. Total number of directories
-#
-# This is similar to a utility that runs before an ETL
-# pipeline begins processing data.
-
-
-def scan_dataset(path):
-    pass
 # ------------------------------------------------------------
 # B. EASY / MEDIUM — Organize uploads
 # ------------------------------------------------------------
