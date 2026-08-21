@@ -617,6 +617,27 @@ def log_summary(path):
     pass
 
 
+logs, txts, extensions, long_names = log_summary("logs_project")
+
+print("Log files:", logs)
+print("Text files:", txts)
+print("Extensions:", extensions)
+print("Long filenames:", long_names)
+
+"""
+Exptected output: 
+
+Log files: 4
+Text files: 3
+Extensions: {'txt', 'log', 'png', 'gz', 'json', 'md'}
+Long filenames: [
+    'this_is_a_very_long_log_filename.log',
+    'this_is_an_extremely_long_text_filename.txt',
+    'another_really_really_long_filename.md'
+]
+"""
+
+
 # ------------------------------------------------------------
 # E. HARDEST — Mini Dataset Scanner
 # ------------------------------------------------------------
