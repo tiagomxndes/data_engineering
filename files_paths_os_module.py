@@ -683,3 +683,24 @@ Long filenames: [
 
 def scan_dataset(path):
     pass
+
+
+csv_files, json_files, extensions, total_files, total_dirs = scan_dataset(
+    "dataset_project"
+)
+
+print("CSV files:", csv_files)
+print("JSON files:", json_files)
+print("Extensions:", extensions)
+print("Total files:", total_files)
+print("Total directories:", total_dirs)
+
+"""
+Expected output:
+
+CSV files: ['customers.csv', 'sales.csv', 'inventory.csv']
+JSON files: ['config.json', 'users.json']
+Extensions: {'csv', 'json', 'md', 'txt', 'png', 'log', 'gz', 'xml'}
+Total files: 11
+Total directories: 5
+"""
