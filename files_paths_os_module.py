@@ -72,7 +72,7 @@
 # that prints the current working directory.
 
 import os
-from os.path import isdir
+from os.path import isdir, isfile
 
 
 def show_current_directory():
@@ -656,7 +656,7 @@ Long filenames: [
 ]
 """
 
-
+print(40 * "-")
 # ------------------------------------------------------------
 # E. HARDEST — Mini Dataset Scanner
 # ------------------------------------------------------------
@@ -682,9 +682,38 @@ Long filenames: [
 
 
 def scan_dataset(path):
-    pass
+    csv_files = []
+    json_files = []
+    unique_ext = set()
+    total_num_files = 0
+    total_num_dir = 0
+    folder_content = os.listdir(path)
+
+    for content in folder_content:
+        full_path = os.path.join(path, content)
+
+        if os.path.isdir(full_path):
+            total_num_dir += 1
+        elif os.path.isfile(full_path):
+            total_num_files += 1
+
+            _, extension = os.path.splitext(content)
+            extension = extension[1:].lower()
+
+            if extension:
+                unique_ext.add(extension)
+
+            if extension == "csv":
+                csv_files.append(content)
+            elif extension == "json":
+                json_files.append(content)
+
+    return csv_files, json_files, unique_ext, total_num_files, total_num_dir
 
 
+print(scan_dataset("dataset_project"))
+
+"""
 csv_files, json_files, extensions, total_files, total_dirs = scan_dataset(
     "dataset_project"
 )
@@ -693,8 +722,8 @@ print("CSV files:", csv_files)
 print("JSON files:", json_files)
 print("Extensions:", extensions)
 print("Total files:", total_files)
-print("Total directories:", total_dirs)
-
+    #print("Total directories:", total_dirs)
+"""
 """
 Expected output:
 
