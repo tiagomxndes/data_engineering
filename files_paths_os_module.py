@@ -595,7 +595,7 @@ def scan_project(path):
 
 
 print(scan_project("sample_project"))
-
+print(40 * "-")
 
 # ------------------------------------------------------------
 # D. HARD — Log Summary
@@ -614,7 +614,26 @@ print(scan_project("sample_project"))
 
 
 def log_summary(path):
-    pass
+    content_folder = os.listdir(path)
+    total_log = 0
+    total_txt = 0
+    unique_ext = set()
+    longer_than_20 = []
+
+    for content in content_folder:
+        name, extension = os.path.splitext(content)
+
+        if extension == ".log":
+            total_log += 1
+        elif extension == ".txt":
+            total_txt += 1
+
+        if len(name) > 20:
+            longer_than_20.append(content)
+
+        unique_ext.add(extension[1:])
+
+    return total_log, total_txt, unique_ext, longer_than_20
 
 
 logs, txts, extensions, long_names = log_summary("logs_project")
