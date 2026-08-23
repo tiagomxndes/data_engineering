@@ -105,7 +105,7 @@ def print_stats():
 
 
 print_stats()
-
+print(40 * "-")
 
 # ============================================================
 # PART 2 — Build from scratch (easiest → hardest)
@@ -115,6 +115,15 @@ print_stats()
 # Write department_average(path) that reads a CSV like employees.csv and
 # returns the average salary specifically for the "Engineering"
 # department (not all departments).
+
+
+def department_average(path):
+    df = pd.read_csv(path)
+    engineering_department = df[df["department"] == "Engineering"]
+    return engineering_department["salary"].mean()
+
+
+print(department_average("employees.csv"))
 # Test with department_average("employees.csv")
 # Expected output: 81666.66666666667
 
