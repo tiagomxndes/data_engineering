@@ -127,9 +127,19 @@ print(department_average("employees.csv"))
 # Test with department_average("employees.csv")
 # Expected output: 81666.66666666667
 
+
 # B. MEDIUM
 # Write top_n_earners(path, n) that reads a CSV and returns a DataFrame
 # containing the top n rows sorted by salary, descending.
+
+
+def top_n_earners(path, n):
+    df = pd.read_csv(path)
+    sorted_salary = df.sort_values("salary", ascending=False)
+    return sorted_salary.head(n)
+
+
+print(top_n_earners("employees.csv", 3))
 # Test with top_n_earners("employees.csv", 3)
 # Expected output (3 rows, sorted descending by salary):
 #      name   department  salary  years_experience
