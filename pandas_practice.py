@@ -52,31 +52,45 @@ with open("employees.csv", "w") as f:
 
 # 1. Read "employees.csv" into a DataFrame and print its first 3 rows.
 def show_first_rows():
-    pass
+    df = pd.read_csv("employees.csv")
+    print(df.head(3))
 
 
 show_first_rows()
 
 
+print(40 * "-")
+
+
 # 2. Read "employees.csv" and print df.info() and df.describe().
 def show_summary():
-    pass
+    df = pd.read_csv("employees.csv")
+    print(df.info())
+    print(40 * "-")
+    print(df.describe())
 
 
 show_summary()
 
 
+print(40 * "-")
+
+
 # 3. Read "employees.csv" and print only the "name" and "salary" columns.
 def show_two_columns():
-    pass
+    df = pd.read_csv("employees.csv")
+    print(df[["name", "salary"]])
 
 
 show_two_columns()
 
+print(40 * "-")
+
 
 # 4. Read "employees.csv" and print only the rows where salary > 65000.
 def high_earners():
-    pass
+    df = pd.read_csv("employees.csv")
+    print(df[df["salary"] > 65000])
 
 
 high_earners()
@@ -85,7 +99,9 @@ high_earners()
 # 5. Read "employees.csv", print the average salary, and the highest
 #    years_experience value.
 def print_stats():
-    pass
+    df = pd.read_csv("employees.csv")
+    print(f"Avg salary: {df['salary'].mean()}")
+    print(f"Highest years of exeperience: {df['years_experience'].max()}")
 
 
 print_stats()
