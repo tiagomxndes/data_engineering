@@ -148,14 +148,42 @@ print(top_n_earners("employees.csv", 3))
 # 0    Alice  Engineering   75000                 3
 
 # C. HARDEST — data engineering flavored
-# Write department_summary(path) that reads a CSV and returns a
-# dictionary where each key is a department name, and each value is
-# another dictionary with "avg_salary" and "headcount" for that
-# department.
+# Write department_summary(path) that reads a CSV and returns a dictionary where:
+#   -> each key is a department name
+#   -> each value isanother dictionary with "avg_salary" and "headcount" for that department.
+print(40 * "-")
+
+
+def department_summary(path):
+    dpt_dict = {}
+    df = pd.read_csv(path)
+    departments = df["department"]
+    for department in departments:
+        if department not in dpt_dict:
+            matching_rows = df[df["department"] == department]
+            dpt_dict[department] = {
+                "avg_salary": round(float(matching_rows["salary"].mean()), 2),
+                "headcount": len(matching_rows),
+            }
+    return dpt_dict
+
+
+print(40 * "-")
+
+
+def department_summary_groupby(path):
+    df = pd.read_csv(path)
+    result = df.groupby("department")["salary"].agg(["mean", "count"])
+    return result
+
+
+print(department_summary("employees.csv"))
+print(department_summary_groupby("employees.csv"))
+
 # Test with department_summary("employees.csv")
 # Expected output (values may print in a different key order):
 # {
-#     "Engineering": {"avg_salary": 81666.67, "headcount": 3},
+#  "Engineering": {"avg_salary": 81666.67, "headcount": 3},
 #     "Sales": {"avg_salary": 62500.0, "headcount": 2},
 #     "Marketing": {"avg_salary": 55000.0, "headcount": 1},
 # }
